@@ -1,0 +1,28 @@
+{
+  "name": "basilisk-mysql-mern",
+  "version": "1.0.0",
+  "description": "mysql react express node",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Clawrence005/basilisk-mysql-mern.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Clawrence005/basilisk-mysql-mern/issues"
+  },
+  "homepage": "https://github.com/Clawrence005/basilisk-mysql-mern#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4"
+  }
+}
