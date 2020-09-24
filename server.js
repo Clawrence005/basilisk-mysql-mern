@@ -35,15 +35,6 @@ app.get('/api/users', (req, res) => connection.query(
   }
 ));
 
-
-/*
-exports.getAllByUser = function(userId, done) {
-  db.get().query('SELECT * FROM comments WHERE user_id = ?', userId, function (err, rows) {
-    if (err) return done(err)
-    done(null, rows)
-  })
-}*/
-
 //get one user by id
 app.get('/api/users/:id', (req, res) => {
   const id = req.params.id;
@@ -74,6 +65,17 @@ app.post('/api/users', function (req, res) {
   })
 });
 
+
+//delete user by id
+app.delete('/api/users/:id', (req, res) => {
+  const id = req.params.id;
+  connection.query('DELETE FROM users WHERE id = ?', id, (err, result) => {
+    if (err) throw err;
+    if (result.affectedRows < 1) { return res.send('no user id found') }
+    else if (result.affectedRows >= 1) { res.send(`user id ${id} deleted`) }
+    console.log(result)
+  })
+});
 
 app.listen(5000, () => {
   console.log(`Server is running on ${PORT}`.cyan.bold);
