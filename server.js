@@ -32,8 +32,29 @@ app.get('/api/users', (req, res) => connection.query(
     if (err) throw err;
 
     res.send(results);
-  }));
+  }
+));
 
+
+/*
+exports.getAllByUser = function(userId, done) {
+  db.get().query('SELECT * FROM comments WHERE user_id = ?', userId, function (err, rows) {
+    if (err) return done(err)
+    done(null, rows)
+  })
+}*/
+
+//get one user by id
+app.get('/api/users/:id', (req, res) => {
+  const id = req.params.id;
+  connection.query(
+    'SELECT * FROM users WHERE id = ?', id,
+    (err, result) => {
+      if (err) throw err;
+      if (result.length === 0) { res.send('no user found') }
+      else { res.send(result) };
+    });
+});
 
 // create new user
 app.post('/api/users', function (req, res) {
@@ -48,10 +69,11 @@ app.post('/api/users', function (req, res) {
     if (err) throw err;
     res.json({
       status: 200,
-      message: "New user added successfully"
+      message: `New user ${req.body.userName} added successfully`
     })
   })
 });
+
 
 app.listen(5000, () => {
   console.log(`Server is running on ${PORT}`.cyan.bold);
