@@ -27,7 +27,7 @@ const connection = mysql.createConnection({
 
 // Display all users
 app.get('/api/users', (req, res) => connection.query(
-  'SELECT * FROM users',
+  'SELECT * FROM users ORDER by id DESC',
   (err, results) => {
     if (err) throw err;
 
@@ -71,7 +71,7 @@ app.delete('/api/users/:id', (req, res) => {
   const id = req.params.id;
   connection.query('DELETE FROM users WHERE id = ?', id, (err, result) => {
     if (err) throw err;
-    if (result.affectedRows < 1) { return res.send('no user id found') }
+    if (result.affectedRows < 1) { res.send('no user id found') }
     else if (result.affectedRows >= 1) { res.send(`user id ${id} deleted`) }
     console.log(result)
   })
