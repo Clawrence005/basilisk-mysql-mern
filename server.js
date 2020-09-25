@@ -65,11 +65,27 @@ app.post('/api/users', function (req, res) {
   })
 });
 
+//update user by id
+app.put('/api/users/:id', (req, res) => {
+  const id = req.params.id;
+  let values = [
+    req.body.userName,
+    req.body.email,
+    req.body.bio,
+    req.body.userImage
+  ];
+
+  connection.query('UPDATE users SET userName=?, email=?, bio=?, userImage=? WHERE id= ?', [values[0], values[1], values[2], values[3], id], (err, result) => {
+    if (err) throw err;
+    if (result.affectedRows < 1) { res.send('error encountered while updating') }
+    else if (result.affectedRows >= 1) { res.send(`user id ${id} updated`) }
+  });
+});
 
 //delete user by id
 app.delete('/api/users/:id', (req, res) => {
   const id = req.params.id;
-  connection.query('DELETE FROM users WHERE id = ?', id, (err, result) => {
+  connection.query('DELETE FROM users WHERE id = ?', [id], (err, result) => {
     if (err) throw err;
     if (result.affectedRows < 1) { res.send('no user id found') }
     else if (result.affectedRows >= 1) { res.send(`user id ${id} deleted`) }
