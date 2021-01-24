@@ -49,18 +49,18 @@ app.get('/api/users/:id', (req, res) => {
 
 // create new user
 app.post('/api/users', function (req, res) {
-  let sql = `INSERT INTO users(userName, email, bio, userImage) VALUES (?)`;
+  let sql = `INSERT INTO users(user_name, email, bio, user_image) VALUES (?)`;
   let values = [
-    req.body.userName,
+    req.body.user_name,
     req.body.email,
     req.body.bio,
-    req.body.userImage
+    req.body.user_image
   ];
   connection.query(sql, [values], function (err, data, fields) {
     if (err) throw err;
     res.json({
       status: 200,
-      message: `New user ${req.body.userName} added successfully`
+      message: `New user ${values[0]} added successfully`
     })
   })
 });
@@ -69,7 +69,7 @@ app.post('/api/users', function (req, res) {
 app.put('/api/users/:id', (req, res) => {
   const id = req.params.id;
   let values = [
-    req.body.userName,
+    req.body.user_name,
     req.body.email,
     req.body.bio,
     req.body.userImage
@@ -92,6 +92,52 @@ app.delete('/api/users/:id', (req, res) => {
     console.log(result)
   })
 });
+
+// Cocktail Routes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// get all cocktails
+// app.get('/api/cocktails', (req, res) => {
+//   let sql = 
+// });
+
+app.get('/api/cocktails', (req, res) => connection.query(
+  'SELECT * FROM cocktails ORDER by id DESC',
+  (err, results) => {
+    if (err) throw err;
+
+    res.send(results);
+  }
+));
+// get one cocktail by id
+
+// post new cocktail
+app.post('/api/cocktails', (req, res) => {
+  let sql = `INSERT INTO cocktails(  cocktail_name, creator_name, cocktail_image, ingredients, method, glass, garnish) VALUES (?)`;
+  let values = [
+    req.body.cocktail_name,
+    req.body.creator_name,
+    req.body.cocktail_image,
+    req.body.ingredients,
+    req.body.method,
+    req.body.glass,
+    req.body.garnish,
+    // req.body.created_at,
+    // req.body.updated_at
+    // ALTER TABLE `table1` ADD `lastUpdated` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ;
+  ];
+  connection.query(sql, [values], function (err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: `new cocktail ${values[0]} added successfully`
+    })
+  })
+});
+
+// update cocktail
+
+// delete cocktail by id
+
 
 app.listen(5000, () => {
   console.log(`Server is running on ${PORT}`.cyan.bold);
